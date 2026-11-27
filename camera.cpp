@@ -37,9 +37,9 @@ Vec3 Camera::get_pixel_local_pos(const int & x, const int & y) {
 Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
     Vec3 start_pixel_pos = get_pixel_local_pos(x,y);
 
-    std::cout << start_pixel_pos << "\n";
-    std::cout << focal_length/36 << "\n";
-    std::cout << start_pixel_pos*focal_length/36 << "\n";
+    // std::cout << start_pixel_pos << "\n";
+    // std::cout << focal_length/36 << "\n";
+    // std::cout << start_pixel_pos*focal_length/36 << "\n";
 
     Vec3 ray_target = pos + start_pixel_pos*(focal_length/36);
 
