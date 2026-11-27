@@ -6,7 +6,6 @@
 #include <array>
 #include <fstream>
 #include <iostream>
-#include <random>
 #include <tuple>
 #include <vector>
 
@@ -32,13 +31,17 @@ void Camera::update_size() {
 }
 
 Vec3 Camera::get_pixel_local_pos(const int & x, const int & y) {
-    return top_left_pixel + offset_local({right,up,vec3_zero},{pixel_size*x,pixel_size*y,0});
+    return top_left_pixel + offset_local({right,up,vec3_zero},{pixel_size*x,-pixel_size*y,0});
 }
 
 Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
     Vec3 start_pixel_pos = get_pixel_local_pos(x,y);
 
-    Vec3 ray_target = pos + start_pixel_pos*focus_distance/(focal_length/36);
+    std::cout << start_pixel_pos << "\n";
+    std::cout << focal_length/36 << "\n";
+    std::cout << start_pixel_pos*focal_length/36 << "\n";
+
+    Vec3 ray_target = pos + start_pixel_pos*(focal_length/36);
 
     Vec3 ray_origin = pos;
 

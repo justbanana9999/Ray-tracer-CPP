@@ -70,10 +70,10 @@ std::tuple<Vec3,Vec3,Vec3> get_relative_axes(const Vec3 & n){
     } else if (front == -vec3_up) {
         right = vec3_right;
     } else {
-        right = cross(front,vec3_up);
+        right = cross(front,vec3_up).normalized();
     }
 
-    up = cross(right,front);
+    up = cross(right,front).normalized();
 
     return {front,right,up};
 }
