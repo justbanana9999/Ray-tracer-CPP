@@ -46,7 +46,13 @@ Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
 
     Ray pixel_ray = {ray_origin,ray_dir,};
 
-    return -pixel_ray.dir;
+    if (ray_dir.x > 0) {
+        return vec3_one;
+    } else {
+        return vec3_zero;
+    }
+
+    // return pixel_ray.dir*2-vec3_one;
 }
 
 void Camera::render() {
@@ -61,27 +67,31 @@ void Camera::render() {
             remaining_pixels.push_back({x,y});
         }
     }
-    std::random_device rd;
-    std::mt19937 gen(rd());
+//     std::random_device rd;
+//     std::mt19937 gen(rd());
+//     std::shuffle(remaining_pixels.begin(), remaining_pixels.end(), gen);
+//
+//     for (const std::array<int,2> pixel : remaining_pixels) {
+//         auto [x,y] = pixel;
+//
+//         unsigned int seed = y*res[0]+x;
+//         std::mt19937 gen(seed);
+//
+//         Vec3 color = shoot_ray_from_pixel(x,y);
+//
+//         canvas.put_pixel(color,x,y);
+//     }
 
-    std::shuffle(remaining_pixels.begin(), remaining_pixels.end(), gen);
-
-    for (const std::array<int,2> pixel : remaining_pixels) {
-        auto [x,y] = pixel;
-
-        unsigned int seed = y*res[0]+x;
-        std::mt19937 gen(seed);
-
-        Vec3 color = shoot_ray_from_pixel(x,y);
-
-        canvas.put_pixel(color,x,y);
+    for (int y=0;y<res[1];y++) {
+        for (int x=0;x<res[0];x++) {
+            Vec3 color = (shoot_ray_from_pixel(x,y)+vec3_one)/2;
+            canvas.put_pixel(color,x,y);
+        }
     }
 
-    // std::ofstream file("result.txt");
-    // file << canvas;
-    // file.close();
-
-    // std::cout << canvas;
+    std::ofstream file("result.txt");
+    file << canvas;
+    file.close();
 
     save_img(canvas, "result.ppm");
 }
