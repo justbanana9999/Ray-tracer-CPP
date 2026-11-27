@@ -46,13 +46,13 @@ Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
 
     Ray pixel_ray = {ray_origin,ray_dir,};
 
-    if (ray_dir.x > 0) {
-        return vec3_one;
-    } else {
-        return vec3_zero;
-    }
+    // if (ray_dir.x > 0) {
+    //     return vec3_one;
+    // } else {
+    //     return vec3_zero;
+    // }
 
-    // return pixel_ray.dir*2-vec3_one;
+    return pixel_ray.dir;
 }
 
 void Camera::render() {
@@ -84,7 +84,7 @@ void Camera::render() {
 
     for (int y=0;y<res[1];y++) {
         for (int x=0;x<res[0];x++) {
-            Vec3 color = (shoot_ray_from_pixel(x,y)+vec3_one)/2;
+            Vec3 color = shoot_ray_from_pixel(x,y);
             canvas.put_pixel(color,x,y);
         }
     }
