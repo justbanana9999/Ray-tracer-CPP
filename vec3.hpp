@@ -14,6 +14,10 @@ struct Vec3 {
     Vec3 operator * (const double &) const;
     Vec3 operator / (const double &) const;
 
+    Vec3 operator - () const;
+
+    bool operator == (const Vec3 &) const;
+
     double length_squared() const;
     double length() const;
 
@@ -27,10 +31,12 @@ extern const Vec3 vec3_front;
 extern const Vec3 vec3_right;
 extern const Vec3 vec3_up;
 
-std::array<Vec3,3> make_vectors();
+std::tuple<Vec3,Vec3,Vec3> get_relative_axes(const Vec3 &);
 
-std::ostream & operator << (std::ostream & out, const Vec3 & v);
+std::ostream & operator << (std::ostream &, const Vec3 &);
 
 double dot(const Vec3 &, const Vec3 &);
 Vec3 cross(const Vec3 &, const Vec3 &);
 Vec3 reflect(const Vec3 &, const Vec3 &);
+
+Vec3 offset_local(const std::array<Vec3,3> &, const Vec3 &);
