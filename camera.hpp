@@ -51,7 +51,7 @@ struct Camera {
     void initialize_values();
     void update_size();
     Vec3 get_pixel_local_pos(const int &, const int &);
-    Vec3 shoot_ray_from_pixel(const int &, const int &,std::mt19937);
+    Vec3 shoot_ray_from_pixel(const int &, const int &,std::mt19937 &);
     void render();
 
 };

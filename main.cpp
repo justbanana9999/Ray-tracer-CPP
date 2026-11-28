@@ -18,6 +18,6 @@ int main() {
         scene.add(triangle);
     }
 
-    Camera cam = {Vec3{0,0,1},Vec3{0,1,1},{100,100},10,4,scene,100};
+    Camera cam = {Vec3{0,0,1},Vec3{0,1,1},{1000,1000},10,4,scene,100};
     cam.render();
 }

@@ -119,12 +119,12 @@ Vec3 offset_local(const std::array<Vec3,3> & orientation, const Vec3 & offset) {
     return orientation[0]*offset.x + orientation[1]*offset.y + orientation[2]*offset.z;
 }
 
-Vec3 get_random_vector(std::mt19937 generator) {
+Vec3 get_random_vector(std::mt19937 & generator) {
     std::uniform_real_distribution<double> sample(-1,1);
     return  Vec3(sample(generator),sample(generator),sample(generator)).normalized();
     }
 
-Vec3 scatter_towards_normal(Vec3 normal,std::mt19937 generator) {
+Vec3 scatter_towards_normal(Vec3 normal,std::mt19937 & generator) {
     auto [up,right,front] = get_relative_axes(normal);
 
     Vec3 random_vector = get_random_vector(generator);

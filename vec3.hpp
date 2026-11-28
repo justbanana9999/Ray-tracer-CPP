@@ -58,7 +58,7 @@ Vec3 offset_local(const std::array<Vec3,3> &, const Vec3 &);
 
 Vec3 random_point();
 
-Vec3 scatter_towards_normal(Vec3,std::mt19937);
+Vec3 scatter_towards_normal(Vec3,std::mt19937 &);
 
 Vec3 interpolate(Vec3,Vec3,double);
 

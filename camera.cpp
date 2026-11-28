@@ -39,7 +39,7 @@ Vec3 Camera::get_pixel_local_pos(const int & x, const int & y) {
     return top_left_pixel + offset_local({right,up,vec3_zero},{pixel_size*x,-pixel_size*y,0});
 }
 
-Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y,std::mt19937 rng) {
+Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y,std::mt19937 & rng) {
 
     std::pmr::vector<Vec3> color_list = {};
 
