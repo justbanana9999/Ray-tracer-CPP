@@ -29,7 +29,7 @@ std::ostream & operator << (std::ostream & out, const Canvas & c) {
     return out;
 }
 
-void save_img(const Canvas & canvas,const std::pmr::string & path) {
+void save_img(const Canvas & canvas,const std::string & path) {
     std::ofstream out(path.c_str());
 
     out << "P3\n" << canvas.res_x << " " << canvas.res_y << "\n255\n";

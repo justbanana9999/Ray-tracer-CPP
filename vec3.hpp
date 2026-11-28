@@ -6,6 +6,16 @@
 struct Vec3 {
     double x,y,z;
 
+    Vec3(
+        double x = 0,
+        double y = 0,
+        double z = 0
+    ):
+        x(x),
+        y(y),
+        z(z)
+    {}
+
     Vec3 operator + (const Vec3 &) const;
     Vec3 operator - (const Vec3 &) const;
     Vec3 operator * (const Vec3 &) const;
@@ -15,6 +25,9 @@ struct Vec3 {
     Vec3 operator / (const double &) const;
 
     Vec3 operator - () const;
+
+    Vec3 operator += (const Vec3 & other);
+    Vec3 operator *= (const Vec3 & other);
 
     bool operator == (const Vec3 &) const;
 

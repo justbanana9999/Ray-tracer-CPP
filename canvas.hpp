@@ -19,4 +19,4 @@ struct Canvas {
 
 std::ostream & operator << (std::ostream &, const Canvas &);
 
-void save_img(const Canvas & canvas,const std::pmr::string & path);
+void save_img(const Canvas & canvas,const std::string & path);

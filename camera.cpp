@@ -1,12 +1,17 @@
 #include "camera.hpp"
 #include "canvas.hpp"
+#include "intersections.hpp"
+#include "material.hpp"
 #include "ray.hpp"
+#include "shapes.hpp"
 #include "vec3.hpp"
 #include <algorithm>
 #include <array>
 #include <fstream>
 #include <iostream>
 #include <tuple>
+#include <type_traits>
+#include <variant>
 #include <vector>
 
 void Camera::update_aspect_ratio() {
@@ -49,13 +54,59 @@ Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
 
     Ray pixel_ray = {ray_origin,ray_dir,};
 
+    for (int bounce=0;bounce<max_bounces+3;bounce++) {
+        if (bounce == max_bounces+2) {
+            pixel_ray.color = vec3_zero;
+        }
+        std::tuple<Vec3,Vec3,Material> closest = {vec3_zero,vec3_zero,Material()};
+        float min_dist = 1e6;
+        for (const auto & shape : scene.shape_list) {
+            Material material = std::visit([](const auto & s) {return s.material;},shape);
+
+            auto [hit,hit_pos,hit_normal] = std::visit([& pixel_ray](const auto & s) {
+                using T = std::decay_t<decltype(s)>;
+                if constexpr (std::is_same_v<T,Sphere>) {
+                    return ray_sphere_intersection(pixel_ray,s);
+                } else {
+                    return ray_triangle_intersection(pixel_ray,s);
+                }
+            },shape);
+
+            if (hit && (hit_pos-pixel_ray.origin).length() < min_dist) {
+                min_dist = (hit_pos-pixel_ray.origin).length();
+                closest = {hit_pos,hit_normal,material};
+            }
+        }
+
+        if (min_dist == 1e6) {
+            if (bounce == 0) {
+                // pixel_ray.color = vec3_zero;
+                pixel_ray.color = pixel_ray.dir;
+            }
+            break;
+        } else {
+            auto [hit_pos,hit_normal,hit_color] = closest;
+
+            // diffuse_vector = scatter_torwards_normal(pixel_ray.dir,hit_normal);
+            Vec3 specular_vector = reflect(pixel_ray.dir,hit_normal);
+            pixel_ray.dir = specular_vector;
+
+            pixel_ray.incoming += hit_color.emission*pixel_ray.color;
+            pixel_ray.color *= hit_color.diffuse;
+
+            pixel_ray.origin = hit_pos;
+        }
+    }
+
+    Vec3 color = pixel_ray.incoming;
+
     // if (ray_dir.x > 0) {
     //     return vec3_one;
     // } else {
     //     return vec3_zero;
     // }
 
-    return pixel_ray.dir;
+    return color;
 }
 
 void Camera::render() {

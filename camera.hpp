@@ -1,6 +1,7 @@
 #pragma once
 
 #include "canvas.hpp"
+#include "scene.hpp"
 #include "vec3.hpp"
 #include <array>
 #include <iosfwd>
@@ -10,12 +11,28 @@ struct Camera {
     Vec3 pos,look_at;
     std::array<int,2> res;
     double focal_length;
+    int max_bounces;
+    Scene scene;
 
-    Camera(Vec3 pos,Vec3 look_at,std::array<int,2> res,double focal_length):
-    pos(pos),look_at(look_at),res(res),focal_length(focal_length)
+    Camera(
+        Vec3 pos,
+        Vec3 look_at,
+        std::array<int,2> res,
+        double focal_length,
+        int max_bounces,
+        Scene scene
+    ):
+        pos(pos),
+        look_at(look_at),
+        res(res),
+        focal_length(focal_length),
+        max_bounces(max_bounces),
+        scene(scene)
     {}
 
-    Vec3 front,right,up;
+    Vec3 front = vec3_zero;
+    Vec3 right = vec3_zero;
+    Vec3 up = vec3_zero;
 
     double width,height,aspect_ratio;
 
@@ -23,7 +40,7 @@ struct Camera {
 
     Canvas canvas = Canvas(res[0],res[1]);
 
-    Vec3 top_left_pixel;
+    Vec3 top_left_pixel = vec3_zero;
 
     double focus_distance;
 

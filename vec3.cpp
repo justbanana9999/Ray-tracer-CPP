@@ -36,6 +36,21 @@ Vec3 Vec3::operator - () const {
     return {-x,-y,-z};
 }
 
+Vec3 Vec3::operator += (const Vec3 & other) {
+    x += other.x;
+    y += other.y;
+    z += other.z;
+
+    return *this;
+}
+Vec3 Vec3::operator *= (const Vec3 & other) {
+    x *= other.x;
+    y *= other.y;
+    z *= other.z;
+
+    return *this;
+}
+
 bool Vec3::operator == (const Vec3 & other) const {
     return x == other.x && y == other.y && z == other.z;
 }
@@ -57,7 +72,9 @@ Vec3 Vec3::point_at(const Vec3 & other) const {
 };
 
 std::tuple<Vec3,Vec3,Vec3> get_relative_axes(const Vec3 & n){
-    Vec3 front,right,up;
+    Vec3 front = vec3_zero;
+    Vec3 right = vec3_zero;
+    Vec3 up = vec3_zero;
 
     if (n.length_squared() == 0) {
         front = -vec3_up;
