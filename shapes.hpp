@@ -40,7 +40,7 @@ struct Triangle{
         c(c),
         material(material),
         e1(b-a),
-        e2(b-a),
+        e2(c-a),
         normal(cross(e1,e2).normalized())
     {}
 

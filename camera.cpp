@@ -82,6 +82,7 @@ Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
             if (bounce == 0) {
                 // pixel_ray.color = vec3_zero;
                 pixel_ray.color = pixel_ray.dir;
+                return pixel_ray.color;
             }
             break;
         } else {

@@ -8,6 +8,6 @@ int main() {
         Sphere(Vec3(0,2,0),1)
     };
 
-    Camera cam = {Vec3{0,0,0},Vec3{0,1,0},{100,100},10,4,Scene({})};
+    Camera cam = {Vec3{0,0,0},Vec3{0,1,0},{100,100},10,4,scene};
     cam.render();
 }
