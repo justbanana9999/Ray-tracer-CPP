@@ -4,7 +4,9 @@
 #include <cmath>
 #include <iostream>
 #include <ostream>
+#include <random>
 #include <tuple>
+#include <vector>
 
 const Vec3 vec3_zero{0,0,0};
 const Vec3 vec3_one{1,1,1};
@@ -115,4 +117,40 @@ Vec3 reflect(const Vec3 & i, const Vec3 & n) {
 
 Vec3 offset_local(const std::array<Vec3,3> & orientation, const Vec3 & offset) {
     return orientation[0]*offset.x + orientation[1]*offset.y + orientation[2]*offset.z;
+}
+
+Vec3 get_random_vector(std::mt19937 generator) {
+    std::uniform_real_distribution<double> sample(-1,1);
+    return  Vec3(sample(generator),sample(generator),sample(generator)).normalized();
+    }
+
+Vec3 scatter_towards_normal(Vec3 normal,std::mt19937 generator) {
+    auto [up,right,front] = get_relative_axes(normal);
+
+    Vec3 random_vector = get_random_vector(generator);
+
+    if (random_vector.length() == 0) {
+        random_vector = vec3_up;
+    }
+
+    Vec3 scatter_vector = (normal+offset_local({front,right,up}, random_vector).normalized());
+
+    return scatter_vector;
+}
+
+Vec3 interpolate(Vec3 a,Vec3 b,double w) {
+    return a+(b-a)*w;
+}
+
+Vec3 vector_sum(std::pmr::vector<Vec3> vector_list) {
+    Vec3 s = vec3_zero;
+    for (const auto & v : vector_list) {
+        s += v;
+    }
+
+    return s;
+}
+
+Vec3 vector_average(std::pmr::vector<Vec3> vector_list) {
+    return vector_sum(vector_list)/vector_list.size();
 }

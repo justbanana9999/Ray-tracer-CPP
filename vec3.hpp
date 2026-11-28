@@ -2,6 +2,8 @@
 
 #include <array>
 #include <iosfwd>
+#include <random>
+#include <vector>
 
 struct Vec3 {
     double x,y,z;
@@ -53,3 +55,13 @@ Vec3 cross(const Vec3 &, const Vec3 &);
 Vec3 reflect(const Vec3 &, const Vec3 &);
 
 Vec3 offset_local(const std::array<Vec3,3> &, const Vec3 &);
+
+Vec3 random_point();
+
+Vec3 scatter_towards_normal(Vec3,std::mt19937);
+
+Vec3 interpolate(Vec3,Vec3,double);
+
+Vec3 sum();
+
+Vec3 vector_average(std::pmr::vector<Vec3>);
