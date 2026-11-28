@@ -84,6 +84,7 @@ Vec3 Camera::shoot_ray_from_pixel(const int & x, const int & y) {
                 pixel_ray.color = pixel_ray.dir;
                 return pixel_ray.color;
             }
+            pixel_ray.incoming += pixel_ray.dir*pixel_ray.color;
             break;
         } else {
             auto [hit_pos,hit_normal,hit_color] = closest;
